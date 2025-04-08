@@ -5,7 +5,7 @@ This is a FastAPI project structured to include models, controllers, routes, and
 ## Project Structure
 
 ```
-backend1
+backend
 ├── src
 │   ├── main.py          # Entry point of the FastAPI application
 │   ├── db.py            # Database connection setup
@@ -24,17 +24,20 @@ backend1
 ## Setup Instructions
 
 1. **Clone the repository**:
+
    ```
    git clone <repository-url>
    cd backend1
    ```
 
 2. **Create a virtual environment**:
+
    ```
    python -m venv venv
    ```
 
 3. **Activate the virtual environment**:
+
    - On Windows:
      ```
      venv\Scripts\activate
@@ -45,6 +48,7 @@ backend1
      ```
 
 4. **Install dependencies**:
+
    ```
    pip install -r requirements.txt
    ```
