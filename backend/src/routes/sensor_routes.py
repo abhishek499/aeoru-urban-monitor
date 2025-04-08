@@ -24,19 +24,33 @@ async def add_sensor_data(sensor_data: SensorDataSchema, db: AsyncSession = Depe
     await notify_clients(created_data)
     return created_data
 
+# In-memory storage for connected WebSocket clients
+active_connections = []
+
 @sensor_router.websocket("/ws/sensor-data")
-async def websocket_endpoint(websocket: WebSocket):
+async def websocket_endpoint(websocket: WebSocket, db: AsyncSession = Depends(get_db)):
     """WebSocket endpoint to send and receive sensor data."""
+    print("WebSocket connection attempt")
     await websocket.accept()
+    print("WebSocket connection accepted")
     active_connections.append(websocket)
     try:
         while True:
             # Wait for data from the client
             data = await websocket.receive_json()
-            # Process the received data (e.g., log it or store it)
             print(f"Received data: {data}")
+
+            # Validate and save the data to the database
+            try:
+                sensor_data = SensorDataSchema(**data)  # Validate the data using Pydantic
+                created_data = await create_sensor_data(sensor_data, db)  # Save to the database
+                print(f"Data saved to database: {created_data}")
+            except Exception as e:
+                print(f"Failed to save data to database: {e}")
+                await websocket.send_json({"error": "Failed to save data to database"})
+
             # Optionally, send a response back to the client
-            await websocket.send_json({"message": "Data received", "data": data})
+            await websocket.send_json({"message": "Data received and saved", "data": data})
     except WebSocketDisconnect:
         # Remove the client from active connections on disconnect
         active_connections.remove(websocket)

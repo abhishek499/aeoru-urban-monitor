@@ -4,3 +4,4 @@ sqlalchemy
 sqlalchemy[asyncio]
 aiomysql
 python-dotenv
+websockets
