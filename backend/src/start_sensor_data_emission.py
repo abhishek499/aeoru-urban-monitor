@@ -2,45 +2,51 @@ import asyncio
 import random
 import json
 import sys
-from websockets import connect
+from websockets import connect, WebSocketException
 
 async def emit_sensor_data(server_url, variance, num_sensors, interval):
     """Emit random sensor data to the WebSocket server."""
-    try:
-        async with connect(server_url) as websocket:
-            print(f"Connected to WebSocket server at {server_url}")
+    while True:
+        try:
+            async with connect(server_url) as websocket:
+                print(f"Connected to WebSocket server at {server_url}")
 
-            # Generate unique sensor IDs
-            sensor_ids = [f"sensor_{i+1}" for i in range(num_sensors)]
+                # Generate unique sensor IDs
+                sensor_ids = [f"sensor_{i+1}" for i in range(num_sensors)]
 
-            while True:
-                for sensor_id in sensor_ids:
-                    # Generate random sensor data with the specified variance
-                    sensor_data = {
-                        "sensor_id": sensor_id,
-                        "temperature": round(25 + random.uniform(-variance, variance), 2),
-                        "humidity": round(50 + random.uniform(-variance, variance), 2),
-                        "pressure": round(1013 + random.uniform(-variance, variance), 2),
-                        "visibility": round(10 + random.uniform(-variance, variance), 2),
-                        "aqi": random.randint(0, 500),
-                        "occupancy": random.randint(0, 10),
-                    }
+                while True:
+                    for sensor_id in sensor_ids:
+                        # Generate random sensor data with the specified variance
+                        sensor_data = {
+                            "sensor_id": sensor_id,
+                            "temperature": round(25 + random.uniform(-variance, variance), 2),
+                            "humidity": round(50 + random.uniform(-variance, variance), 2),
+                            "pressure": round(1013 + random.uniform(-variance, variance), 2),
+                            "visibility": round(10 + random.uniform(-variance, variance), 2),
+                            "aqi": random.randint(0, 500),
+                            "occupancy": random.randint(0, 10),
+                        }
 
-                    # Send the data to the WebSocket server
-                    await websocket.send(json.dumps(sensor_data))
-                    print(f"Sent data: {sensor_data}")
+                        # Send the data to the WebSocket server
+                        await websocket.send(json.dumps(sensor_data))
+                        print(f"Sent data: {sensor_data}")
 
-                # Wait for the specified interval before sending the next batch
-                await asyncio.sleep(interval)
+                    # Wait for the specified interval before sending the next batch
+                    await asyncio.sleep(interval)
 
-    except Exception as e:
-        print(f"Error: {e}")
+        except WebSocketException as e:
+            print(f"WebSocket error: {e}")
+            print("Reconnecting in 5 seconds...")
+            await asyncio.sleep(5)
+        except Exception as e:
+            print(f"Unexpected error: {e}")
+            break
 
 if __name__ == "__main__":
     # Parse command-line arguments
     if len(sys.argv) != 5:
         print("Usage: python start_sensor_data_emission.py <server_url> <variance> <num_sensors> <interval>")
-        print("Example: python start_sensor_data_emission.py ws://127.0.0.1:8000/ws/sensor-data 5 3 2")
+        print("Example: python start_sensor_data_emission.py ws://127.0.0.1:8000/sensor_data/ws/sensor-data 5 3 2")
         sys.exit(1)
 
     server_url = sys.argv[1]  # WebSocket server URL
