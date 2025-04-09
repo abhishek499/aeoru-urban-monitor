@@ -28,6 +28,14 @@ The `aeoru-urban-monitor` project is a real-time urban monitoring system designe
 
 ---
 
+## Dashboard View
+
+Below is a preview of the real-time sensor monitoring dashboard:
+
+![Sensor Dashboard](./assets/dashboard-view.png)
+
+---
+
 ## Setup Instructions
 
 ### Prerequisites
@@ -42,24 +50,17 @@ The `aeoru-urban-monitor` project is a real-time urban monitoring system designe
 ### Backend Setup
 
 1. Clone the repository:
+
    ```bash
    git clone https://github.com/<your-username>/aeoru-urban-monitor.git
    cd aeoru-urban-monitor/backend
    ```
 
-````
-
 2. Install dependencies:
    ```bash
    pip install -r requirements.txt
    ```
-3. Configure the database:
-   - Update the database connection settings in `config.py`.
-   - Run migrations to create the required tables:
-     ```bash
-     alembic upgrade head
-     ```
-4. Start the backend server:
+3. Start the backend server:
    ```bash
    uvicorn main:app --reload
    ```
@@ -96,14 +97,7 @@ The `aeoru-urban-monitor` project is a real-time urban monitoring system designe
    - It highlights sensors with warnings or errors.
 
 3. **Simulate Sensor data**:
-   -In order to let whole system to work, there is python script which lets you create mock data and emit to the backend server using websockets
+   -In order to let whole system to work, there is a python script which lets you create mock data and emit to the backend server using websockets
    -The script accepts data using system arguments and randomizing the values
 
 ---
-
-## Dashboard View
-
-Below is a preview of the real-time sensor monitoring dashboard:
-
-![Sensor Dashboard](./assets/dashboard-view.png)
-````
