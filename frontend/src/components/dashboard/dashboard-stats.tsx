@@ -4,7 +4,7 @@ import type React from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { useDashboard } from '@/context/dashboard-context';
 import { cn } from '@/lib/utils';
-
+import { useSensorDashboard } from '@/hooks/useDashboardSocket';
 interface StatCardProps {
   title: string;
   value: string | number;
@@ -43,8 +43,11 @@ function StatCard({ title, value, icon, trend, className }: StatCardProps) {
 }
 
 export function DashboardStats() {
-  const { sensors, reliabilityScores } = useDashboard();
+  // const { sensors, reliabilityScores } = useDashboard();
 
+
+  
+    const { dashboard, sensors } = useSensorDashboard();
   // Calculate statistics
   const totalSensors = sensors.length;
   const onlineSensors = sensors.filter(s => s.status === 'online').length;
@@ -52,20 +55,24 @@ export function DashboardStats() {
   const warningSensors = sensors.filter(s => s.status === 'warning' || s.status === 'error').length;
 
   // Calculate average reliability score
-  const avgReliability = reliabilityScores.length > 0
-    ? reliabilityScores.reduce((sum, item) => sum + item.score, 0) / reliabilityScores.length
-    : 0;
+  // const avgReliability = reliabilityScores.length > 0
+  //   ? reliabilityScores.reduce((sum, item) => sum + item.score, 0) / reliabilityScores.length
+  //   : 0;
+  
+    if (!dashboard) return <p>Loading dashboard data...</p>;
 
+
+  
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
       <StatCard
         title="Total Sensors"
-        value={totalSensors}
+        value={dashboard.total_sensors}
         icon={<span className="text-xl">📊</span>}
       />
       <StatCard
         title="Online Sensors"
-        value={onlineSensors}
+        value={dashboard.online_sensors}
         icon={<span className="text-xl">✅</span>}
         trend={{
           value: totalSensors > 0 ? Math.round((onlineSensors / totalSensors) * 100) : 0,
@@ -74,16 +81,16 @@ export function DashboardStats() {
       />
       <StatCard
         title="Warning/Error"
-        value={warningSensors}
+        value={dashboard.warning_sensors}
         icon={<span className="text-xl">⚠️</span>}
         trend={{
-          value: totalSensors > 0 ? Math.round((warningSensors / totalSensors) * 100) : 0,
+          value: totalSensors > 0 ? Math.round((dashboard.warning_sensors / dashboard.total_sensors) * 100) : 0,
           label: "of total"
         }}
       />
       <StatCard
         title="Avg. Reliability"
-        value={`${avgReliability.toFixed(1)}%`}
+        value={`${dashboard.average_reliability.toFixed(1)}%`}
         icon={<span className="text-xl">⭐</span>}
       />
     </div>

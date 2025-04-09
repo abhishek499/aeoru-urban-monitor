@@ -3,9 +3,7 @@ import { DashboardStats } from '@/components/dashboard/dashboard-stats';
 import { SensorList } from '@/components/dashboard/sensor-list';
 import { SensorChart } from '@/components/dashboard/sensor-chart';
 import { TimeRangeSelector } from '@/components/dashboard/time-range-selector';
-import { ReliabilityDashboard } from '@/components/dashboard/reliability-dashboard';
 import { DashboardFooter } from '@/components/layout/dashboard-footer';
-import { DashboardContent } from '@/components/dashboard-content';
 
 export default function Home() {
   return (
@@ -23,7 +21,7 @@ export default function Home() {
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
         <div className="md:col-span-1">
-          <SensorList className="h-full" />
+          <SensorList className='h-full' />
         </div>
         <div className="md:col-span-2 space-y-6">
           <TimeRangeSelector />
@@ -31,9 +29,9 @@ export default function Home() {
         </div>
       </div>
 
-      <div className="mb-6">
+      {/* <div className="mb-6">
         <ReliabilityDashboard />
-      </div>
+      </div> */}
 
       <DashboardFooter />
     </DashboardLayout>

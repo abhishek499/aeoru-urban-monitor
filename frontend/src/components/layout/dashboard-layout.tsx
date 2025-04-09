@@ -14,8 +14,8 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
               <h1 className="font-semibold text-lg">Sensor Dashboard</h1>
             </div>
             <nav className="flex items-center gap-4 text-sm">
-              <span className="text-zinc-500 dark:text-zinc-400">v1.0.0</span>
-              <div className="h-4 w-4 rounded-full bg-green-500" title="System Operational"></div>
+              <span className="text-zinc-500 dark:text-zinc-400"></span>
+              <div className="h-4 w-4 rounded-full " title="System Operational"></div>
             </nav>
           </div>
         </header>

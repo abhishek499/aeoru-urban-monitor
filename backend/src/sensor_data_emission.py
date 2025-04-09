@@ -16,12 +16,12 @@ async def emit_sensor_data(server_url, variance, sensor_ids, interval):
                         # Generate random sensor data with the specified variance
                         sensor_data = {
                             "sensor_id": sensor_id,
-                            "temperature": round(25 + random.uniform(-variance, variance), 2),
-                            "humidity": round(50 + random.uniform(-variance, variance), 2),
-                            "pressure": round(1013 + random.uniform(-variance, variance), 2),
-                            "visibility": round(10 + random.uniform(-variance, variance), 2),
-                            "aqi": random.randint(0, 500),
-                            "occupancy": random.randint(0, 10),
+                            "name": f"Sensor {sensor_id}",
+                            "type": random.choice(["temperature", "humidity", "pressure", "air_quality"]),
+                            "location": f"Room {random.randint(1, 10)}",
+                            "value": round(random.uniform(20, 100) + random.uniform(-variance, variance), 2),
+                            "unit": random.choice(["°C", "%", "hPa", "AQI"]),
+                            "status": random.choice(["online", "offline", "warning", "error"]),
                         }
 
                         # Send the data to the WebSocket server
