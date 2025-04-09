@@ -97,7 +97,8 @@ Below is a preview of the real-time sensor monitoring dashboard:
    - It highlights sensors with warnings or errors.
 
 3. **Simulate Sensor data**:
-   -In order to let whole system to work, there is a python script which lets you create mock data and emit to the backend server using websockets
-   -The script accepts data using system arguments and randomizing the values
+
+   - In order to let whole system to work, there is a python script which lets you create mock data and emit to the backend server using websockets
+   - The script accepts data using system arguments and randomizing the values
 
 ---
