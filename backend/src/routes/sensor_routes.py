@@ -1,6 +1,6 @@
 from fastapi import APIRouter, HTTPException, Depends, WebSocket, WebSocketDisconnect
 from sqlalchemy.ext.asyncio import AsyncSession
-from models.sensor_data import SensorDataSchema
+from models.sensor_data import SensorData, SensorDataSchema
 from controllers.sensor_controller import get_sensor_data, create_sensor_data
 from db import get_db
 

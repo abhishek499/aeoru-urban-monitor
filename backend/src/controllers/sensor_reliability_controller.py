@@ -9,7 +9,7 @@ async def get_sensor_reliability(sensor_id: str, db: AsyncSession):
     sensor_reliability = result.scalars().first()
     if not sensor_reliability:
         raise HTTPException(status_code=404, detail=f"Sensor with ID {sensor_id} not found")
-    return sensor_reliability
+    return SensorReliabilitySchema.from_orm_with_last_updated(sensor_reliability)
 
 async def create_or_update_sensor_reliability(sensor_data: SensorReliabilitySchema, db: AsyncSession):
     """Create or update the reliability data for a specific sensor."""
@@ -18,16 +18,18 @@ async def create_or_update_sensor_reliability(sensor_data: SensorReliabilitySche
 
     if existing_sensor:
         # Update existing sensor data
-        existing_sensor.reliability_score = sensor_data.reliability_score
-        existing_sensor.details = sensor_data.details
+        existing_sensor.score = sensor_data.score
+        existing_sensor.variance = sensor_data.variance
+        existing_sensor.update_frequency = sensor_data.update_frequency
     else:
         # Create new sensor data
         new_sensor = SensorReliability(
             sensor_id=sensor_data.sensor_id,
-            reliability_score=sensor_data.reliability_score,
-            details=sensor_data.details,
+            score=sensor_data.score,
+            variance=sensor_data.variance,
+            update_frequency=sensor_data.update_frequency,
         )
         db.add(new_sensor)
 
     await db.commit()
-    return existing_sensor or new_sensor
+    return SensorReliabilitySchema.from_orm_with_last_updated(existing_sensor or new_sensor)
