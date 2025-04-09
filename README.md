@@ -1,6 +1,3 @@
-Here is the updated README.md file based on the provided details:
-
-````markdown
 # aeoru-urban-monitor
 
 ## Overview
@@ -49,6 +46,7 @@ The `aeoru-urban-monitor` project is a real-time urban monitoring system designe
    git clone https://github.com/<your-username>/aeoru-urban-monitor.git
    cd aeoru-urban-monitor/backend
    ```
+
 ````
 
 2. Install dependencies:
@@ -108,3 +106,4 @@ The `aeoru-urban-monitor` project is a real-time urban monitoring system designe
 Below is a preview of the real-time sensor monitoring dashboard:
 
 ![Sensor Dashboard](./assets/dashboard-view.png)
+````
