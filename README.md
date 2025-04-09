@@ -102,3 +102,9 @@ The `aeoru-urban-monitor` project is a real-time urban monitoring system designe
    -The script accepts data using system arguments and randomizing the values
 
 ---
+
+## Dashboard View
+
+Below is a preview of the real-time sensor monitoring dashboard:
+
+![Sensor Dashboard](./assets/dashboard-view.png)
